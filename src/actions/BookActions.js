@@ -1,4 +1,4 @@
-import API from '../apis/API';
+import API from '../apis/BooksAPI';
 
 import {
   CREATE_BOOK,
@@ -65,7 +65,7 @@ export const updateBook = (id, formValues, dispatch) => {
     });
 };
 
-export const deleteBook = (id, dispatch) => {
+export const destroyBook = (id, dispatch) => {
   const deleteData = async () => await API.delete(`/books/${id}`);
 
   deleteData().then((response) => {
