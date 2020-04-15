@@ -1,6 +1,6 @@
 import React from 'react';
 import BookContextProvider from './contexts/BookStore';
-import BookList from './components/BookList';
+import BookList from './components/book/BookList';
 
 function App() {
   return (
