@@ -1,4 +1,5 @@
 import API from '../apis/BooksAPI';
+import history from '../history';
 
 import {
   CREATE_BOOK,
@@ -17,6 +18,7 @@ export const createBook = (formValues, dispatch) => {
         type: CREATE_BOOK,
         payload: response.data,
       });
+      history.push('/books');
     })
     .catch((e) => {
       console.log(e);
@@ -31,7 +33,7 @@ export const readBook = (id, dispatch) => {
         type: READ_BOOK,
         payload: response.data,
       });
-      console.log(response.data);
+      history.push('/books');
     })
     .catch((e) => {
       console.log(e);
@@ -51,7 +53,7 @@ export const readBooks = (dispatch) => {
 
 export const updateBook = (id, formValues, dispatch) => {
   const updateData = async () =>
-    await API.patch(`/books/${id}`, { ...formValues });
+    await API.patch(`/books/${id}`, JSON.stringify({ ...formValues }));
 
   updateData()
     .then((response) => {
@@ -59,6 +61,7 @@ export const updateBook = (id, formValues, dispatch) => {
         type: UPDATE_BOOK,
         payload: response.data,
       });
+      history.push('/books');
     })
     .catch((e) => {
       console.log(e);
@@ -73,5 +76,6 @@ export const destroyBook = (id, dispatch) => {
       type: DESTROY_BOOK,
       payload: id,
     });
+    history.goBack();
   });
 };
