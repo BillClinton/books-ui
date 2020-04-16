@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import useForm from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { BookStore } from '../../contexts/BookStore';
 import TextInput from '../form/TextInput';
 import history from '../../history';
@@ -8,7 +8,7 @@ const NewBookForm = () => {
   const form = useForm();
   const { store } = useContext(BookStore);
 
-  const onCancel = () => history.push('/admin/books');
+  const onCancel = () => history.push('/books');
   const onSubmit = (data, e) => {
     e.preventDefault();
     store.create(data);
@@ -18,7 +18,7 @@ const NewBookForm = () => {
     <form
       className="form"
       onSubmit={form.handleSubmit(onSubmit)}
-      autocomplete="on"
+      autoComplete="on"
     >
       <h1>Add a new book</h1>
       <TextInput
