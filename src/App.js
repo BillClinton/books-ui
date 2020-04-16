@@ -1,14 +1,16 @@
 import React from 'react';
-import BookContextProvider from './contexts/BookStore';
-import BookList from './components/book/BookList';
+import { Router, Route } from 'react-router-dom';
+import history from './history';
+import BookHome from './components/book/BookHome';
 
 function App() {
   return (
     <div className="App">
-      <h1>Book List</h1>
-      <BookContextProvider>
-        <BookList />
-      </BookContextProvider>
+      <Router history={history}>
+        <Route path="/books">
+          <BookHome />
+        </Route>
+      </Router>
     </div>
   );
 }
