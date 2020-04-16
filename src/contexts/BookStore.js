@@ -3,6 +3,7 @@ import BookReducer from '../reducers/BookReducer';
 import {
   createBook,
   readBooks,
+  readBook,
   updateBook,
   destroyBook,
 } from '../actions/BookActions';
@@ -17,6 +18,7 @@ const BookStoreProvider = (props) => {
   const [state, dispatch] = useReducer(BookReducer, initialState);
   const create = (data) => createBook(data, dispatch);
   const read = () => readBooks(dispatch);
+  const readOne = (id) => readBook(id, dispatch);
   const update = (id, data) => updateBook(id, data, dispatch);
   const destroy = (id) => destroyBook(id, dispatch);
 
@@ -24,8 +26,10 @@ const BookStoreProvider = (props) => {
 
   const store = {
     data: state.books,
+    edit: state.book,
     create,
     read,
+    readOne,
     update,
     destroy,
   };
