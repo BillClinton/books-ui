@@ -1,0 +1,34 @@
+.row {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #ccc;
+
+  &:first-child {
+    border-top: 1px solid #ccc;
+  }
+}
+
+.item {
+  display: flex;
+
+  div,
+  a {
+    padding: 0.5em 1em;
+  }
+
+  div {
+    &:first-child {
+      width: 200px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  p {
+    margin: 0;
+    padding: 0;
+  }
+}
