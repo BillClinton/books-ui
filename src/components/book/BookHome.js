@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 
-import BookStoreProvider from '../contexts/BookStore';
+import BookStoreProvider from '../../contexts/BookStore';
 import BookList from './BookList';
 import NewBookForm from './NewBookForm';
 import EditBook from './EditBook';
