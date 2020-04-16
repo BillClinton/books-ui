@@ -7,7 +7,11 @@ const BookDetails = ({ book }) => {
     <li className={styles.row}>
       <div className={styles.item}>
         <div>{book.name}</div>
-        <div> author{book.author}</div>
+        <div>
+          {book.authors.map((author) => {
+            return <p key={author.id}>{author.name}</p>;
+          })}
+        </div>
       </div>
       <div className={styles.item}>
         <Link to={`/books/edit/${book.id}`}>edit</Link>

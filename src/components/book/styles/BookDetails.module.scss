@@ -21,7 +21,14 @@
 
   div {
     &:first-child {
-      width: 300px;
+      width: 200px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
+  }
+  p {
+    margin: 0;
+    padding: 0;
   }
 }
