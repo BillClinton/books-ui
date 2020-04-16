@@ -1,0 +1,20 @@
+.books {
+  padding: 1em;
+
+  .header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5em;
+
+    & > * {
+      margin: 0;
+    }
+  }
+
+  .booklist {
+    padding: 0;
+    margin: 0;
+  }
+}

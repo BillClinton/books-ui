@@ -2,29 +2,21 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { BookStore } from '../../contexts/BookStore';
 import BookDetails from './BookDetails';
+import styles from './styles/BookList.module.scss';
 
 const BookList = () => {
   const { store } = useContext(BookStore);
   const books = store.data;
 
-  console.log(books);
   return books && books.length ? (
-    <div className="book-list">
-      <h1>
-        Book list
+    <div className={styles.books}>
+      <div className={styles.header}>
+        <h1>Book list</h1>
         <Link to="/books/new">New</Link>
-      </h1>
-      <ul>
+      </div>
+      <ul className={styles.booklist}>
         {books.map((book) => {
-          return (
-            <>
-              <BookDetails book={book} key={book.id} />
-              <div>
-                <Link to={`/books/edit/${book.id}`}>edit</Link>
-                <Link to={`/books/delete/${book.id}`}>delete</Link>
-              </div>
-            </>
-          );
+          return <BookDetails book={book} key={book.id} />;
         })}
       </ul>
     </div>

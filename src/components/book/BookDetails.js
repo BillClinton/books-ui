@@ -1,10 +1,18 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import styles from './styles/BookDetails.module.scss';
 
 const BookDetails = ({ book }) => {
   return (
-    <li>
-      <div className="title">{book.name}</div>
-      <div className="author">{book.author}</div>
+    <li className={styles.row}>
+      <div className={styles.item}>
+        <div>{book.name}</div>
+        <div> author{book.author}</div>
+      </div>
+      <div className={styles.item}>
+        <Link to={`/books/edit/${book.id}`}>edit</Link>
+        <Link to={`/books/delete/${book.id}`}>delete</Link>
+      </div>
     </li>
   );
 };
