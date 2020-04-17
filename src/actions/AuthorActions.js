@@ -33,7 +33,6 @@ export const readAuthor = (id, dispatch) => {
         type: READ_AUTHOR,
         payload: response.data,
       });
-      history.push('/authors');
     })
     .catch((e) => {
       console.log(e);

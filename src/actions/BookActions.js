@@ -33,7 +33,6 @@ export const readBook = (id, dispatch) => {
         type: READ_BOOK,
         payload: response.data,
       });
-      history.push('/books');
     })
     .catch((e) => {
       console.log(e);
