@@ -1,8 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import styles from './styles/BookDetails.module.scss';
+import { IconButton } from '@chakra-ui/core';
 
-const BookDetails = ({ book }) => {
+const BookDetails = ({ book, onDelete }) => {
+  const history = useHistory();
+
+  const editBook = (id) => {
+    history.push(`/books/edit/${id}`);
+  };
+
   return (
     <li className={styles.row}>
       <div className={styles.item}>
@@ -14,8 +21,20 @@ const BookDetails = ({ book }) => {
         </div>
       </div>
       <div className={styles.item}>
-        <Link to={`/books/edit/${book.id}`}>edit</Link>
-        <Link to={`/books/delete/${book.id}`}>delete</Link>
+        <IconButton
+          aria-label="Edit book"
+          icon="edit"
+          m="1"
+          size="sm"
+          onClick={() => editBook(book.id)}
+        />
+        <IconButton
+          aria-label="Delete book"
+          icon="delete"
+          m="1"
+          size="sm"
+          onClick={() => onDelete(book)}
+        />
       </div>
     </li>
   );
