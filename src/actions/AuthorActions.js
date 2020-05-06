@@ -10,7 +10,8 @@ import {
 } from './types';
 
 export const createAuthor = (formValues, dispatch) => {
-  const sendData = async () => await API.post('/authors', { ...formValues });
+  const sendData = async () =>
+    await API.post('/api/authors', { ...formValues });
 
   sendData()
     .then((response) => {
@@ -26,7 +27,7 @@ export const createAuthor = (formValues, dispatch) => {
 };
 
 export const readAuthor = (id, dispatch) => {
-  const getData = async () => await API.get(`/authors/${id}`);
+  const getData = async () => await API.get(`/api/authors/${id}`);
   getData()
     .then((response) => {
       dispatch({
@@ -40,7 +41,7 @@ export const readAuthor = (id, dispatch) => {
 };
 
 export const readAuthors = (dispatch) => {
-  const getData = async () => await API.get('/authors');
+  const getData = async () => await API.get('/api/authors');
 
   getData().then((response) => {
     dispatch({
@@ -52,7 +53,7 @@ export const readAuthors = (dispatch) => {
 
 export const updateAuthor = (id, formValues, dispatch) => {
   const updateData = async () =>
-    await API.patch(`/authors/${id}`, JSON.stringify({ ...formValues }));
+    await API.patch(`/api/authors/${id}`, JSON.stringify({ ...formValues }));
 
   updateData()
     .then((response) => {
@@ -68,7 +69,7 @@ export const updateAuthor = (id, formValues, dispatch) => {
 };
 
 export const destroyAuthor = (id, dispatch) => {
-  const deleteData = async () => await API.delete(`/authors/${id}`);
+  const deleteData = async () => await API.delete(`/api/authors/${id}`);
 
   deleteData().then((response) => {
     dispatch({

@@ -10,7 +10,7 @@ import {
 } from './types';
 
 export const createBook = (formValues, dispatch) => {
-  const sendData = async () => await API.post('/books', { ...formValues });
+  const sendData = async () => await API.post('/api/books', { ...formValues });
 
   sendData()
     .then((response) => {
@@ -26,7 +26,7 @@ export const createBook = (formValues, dispatch) => {
 };
 
 export const readBook = (id, dispatch) => {
-  const getData = async () => await API.get(`/books/${id}`);
+  const getData = async () => await API.get(`/api/books/${id}`);
   getData()
     .then((response) => {
       dispatch({
@@ -40,7 +40,7 @@ export const readBook = (id, dispatch) => {
 };
 
 export const readBooks = (dispatch) => {
-  const getData = async () => await API.get('/books');
+  const getData = async () => await API.get('/api/books');
 
   getData().then((response) => {
     dispatch({
@@ -52,7 +52,7 @@ export const readBooks = (dispatch) => {
 
 export const updateBook = (id, formValues, dispatch) => {
   const updateData = async () =>
-    await API.patch(`/books/${id}`, JSON.stringify({ ...formValues }));
+    await API.patch(`/api/books/${id}`, JSON.stringify({ ...formValues }));
 
   updateData()
     .then((response) => {
@@ -68,7 +68,7 @@ export const updateBook = (id, formValues, dispatch) => {
 };
 
 export const destroyBook = (id, dispatch) => {
-  const deleteData = async () => await API.delete(`/books/${id}`);
+  const deleteData = async () => await API.delete(`/api/books/${id}`);
 
   deleteData().then((response) => {
     dispatch({
