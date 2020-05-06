@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { AuthorStore } from '../../contexts/AuthorStore';
 import AuthorDetails from './AuthorDetails';
-import ConfirmDeleteModal from './ConfirmDeleteModal';
+import ConfirmDeleteModal from '../ConfirmDeleteModal';
 import styles from './styles/AuthorList.module.scss';
 import { Button } from '@chakra-ui/core';
 
@@ -14,12 +14,23 @@ const AuthorList = () => {
 
   const addAuthor = () => history.push('/authors/new');
 
+  const deleteAuthor = () => {
+    store.destroy(condemnedAuthor.id);
+    setCondemnedAuthor(null);
+  };
+
   return authors && authors.length ? (
     <>
-      <ConfirmDeleteModal
-        author={condemnedAuthor}
-        clearCondemned={() => setCondemnedAuthor(null)}
-      />
+      {condemnedAuthor && (
+        <ConfirmDeleteModal
+          title="Remove author"
+          deleteCondemned={deleteAuthor}
+          clearCondemned={() => setCondemnedAuthor(null)}
+        >
+          Are you sure you wish to remove <i>{condemnedAuthor.name}</i>
+        </ConfirmDeleteModal>
+      )}
+
       <div className={styles.authors}>
         <div className={styles.header}>
           <h1>Author list</h1>

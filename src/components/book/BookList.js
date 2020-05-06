@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { BookStore } from '../../contexts/BookStore';
 import BookDetails from './BookDetails';
-import ConfirmDeleteModal from './ConfirmDeleteModal';
+import ConfirmDeleteModal from '../ConfirmDeleteModal';
 import styles from './styles/BookList.module.scss';
 import { Button } from '@chakra-ui/core';
 
@@ -14,12 +14,25 @@ const BookList = () => {
 
   const addBook = () => history.push(`/books/new`);
 
+  const deleteBook = () => {
+    store.destroy(condemnedBook.id);
+    setCondemnedBook(null);
+  };
+
   return books && books.length ? (
     <>
-      <ConfirmDeleteModal
-        book={condemnedBook}
-        clearCondemned={() => setCondemnedBook(null)}
-      />
+      {condemnedBook && (
+        <ConfirmDeleteModal
+          title="Remove a book"
+          book={condemnedBook}
+          deleteCondemned={deleteBook}
+          clearCondemned={() => setCondemnedBook(null)}
+        >
+          Are you sure you wish to remove <i>{condemnedBook.name}</i> by{' '}
+          {condemnedBook.authors.map((author) => author.name).join(' ,')} from
+          your library?
+        </ConfirmDeleteModal>
+      )}
       <div className={styles.books}>
         <div className={styles.header}>
           <h1>Book list</h1>
