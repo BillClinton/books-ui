@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { BookStore } from '../../contexts/BookStore';
 import BookDetails from './BookDetails';
 import ConfirmDeleteModal from './ConfirmDeleteModal';
 import styles from './styles/BookList.module.scss';
-import { Button, Icon } from '@chakra-ui/core';
+import { Button } from '@chakra-ui/core';
 
 const BookList = () => {
   const { store } = useContext(BookStore);
@@ -12,13 +12,7 @@ const BookList = () => {
   const [condemnedBook, setCondemnedBook] = useState(null);
   const books = store.data;
 
-  const editBook = (book) => {
-    history.push(`/books/edit/${book.id}`);
-  };
-
-  const addBook = (book) => {
-    history.push(`/books/new`);
-  };
+  const addBook = () => history.push(`/books/new`);
 
   return books && books.length ? (
     <>
