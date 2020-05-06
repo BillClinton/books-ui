@@ -75,6 +75,5 @@ export const destroyAuthor = (id, dispatch) => {
       type: DESTROY_AUTHOR,
       payload: id,
     });
-    history.goBack();
   });
 };
