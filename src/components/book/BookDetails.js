@@ -6,9 +6,7 @@ import { IconButton } from '@chakra-ui/core';
 const BookDetails = ({ book, onDelete }) => {
   const history = useHistory();
 
-  const editBook = (id) => {
-    history.push(`/books/edit/${id}`);
-  };
+  const editBook = (book) => history.push(`/books/edit/${book.id}`);
 
   return (
     <li className={styles.row}>
@@ -26,7 +24,7 @@ const BookDetails = ({ book, onDelete }) => {
           icon="edit"
           m="1"
           size="sm"
-          onClick={() => editBook(book.id)}
+          onClick={() => editBook(book)}
         />
         <IconButton
           aria-label="Delete book"
