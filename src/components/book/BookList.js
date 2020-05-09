@@ -4,7 +4,7 @@ import { BookStore } from '../../contexts/BookStore';
 import BookDetails from './BookDetails';
 import ConfirmDeleteModal from '../ConfirmDeleteModal';
 import styles from './styles/BookList.module.scss';
-import { Button } from '@chakra-ui/core';
+import { Box, Button } from '@chakra-ui/core';
 
 const BookList = () => {
   const { store } = useContext(BookStore);
@@ -33,13 +33,13 @@ const BookList = () => {
           your library?
         </ConfirmDeleteModal>
       )}
+
       <div className={styles.books}>
         <div className={styles.header}>
           <h1>Book list</h1>
           <Button
             aria-label="Add a book"
             m="1"
-            size="sm"
             variantColor="green"
             onClick={() => addBook()}
           >
@@ -60,7 +60,28 @@ const BookList = () => {
       </div>
     </>
   ) : (
-    <div className="empty">No books found</div>
+    <Box
+      mt="100px"
+      mx="auto"
+      textAlign="center"
+      width={[
+        '100%', // base
+        '400px', // 480px upwards
+        '400px', // 768px upwards
+        '400px', // 992px upwards
+      ]}
+    >
+      <div className="empty">No books found</div>
+      <Button
+        aria-label="Add a book"
+        mt={8}
+        width="100%"
+        variantColor="green"
+        onClick={() => addBook()}
+      >
+        Add a book
+      </Button>
+    </Box>
   );
 };
 

@@ -4,7 +4,7 @@ import { AuthorStore } from '../../contexts/AuthorStore';
 import AuthorDetails from './AuthorDetails';
 import ConfirmDeleteModal from '../ConfirmDeleteModal';
 import styles from './styles/AuthorList.module.scss';
-import { Button } from '@chakra-ui/core';
+import { Box, Button } from '@chakra-ui/core';
 
 const AuthorList = () => {
   const { store } = useContext(AuthorStore);
@@ -58,7 +58,28 @@ const AuthorList = () => {
       </div>
     </>
   ) : (
-    <div className="empty">No authors found</div>
+    <Box
+      mt="100px"
+      mx="auto"
+      textAlign="center"
+      width={[
+        '100%', // base
+        '400px', // 480px upwards
+        '400px', // 768px upwards
+        '400px', // 992px upwards
+      ]}
+    >
+      <div className="empty">No authors found</div>
+      <Button
+        aria-label="Add a book"
+        mt={8}
+        width="100%"
+        variantColor="green"
+        onClick={() => addAuthor()}
+      >
+        Add an Author
+      </Button>
+    </Box>
   );
 };
 
