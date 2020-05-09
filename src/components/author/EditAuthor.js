@@ -12,7 +12,11 @@ const EditAuthor = ({ match }) => {
     store.readOne(id);
   }
 
-  return author ? <EditAuthorForm author={author} /> : <div>loading form...</div>;
+  return author ? (
+    <EditAuthorForm author={author} />
+  ) : (
+    <div>loading form...</div>
+  );
 };
 
 export default EditAuthor;
