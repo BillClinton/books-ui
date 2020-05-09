@@ -9,6 +9,8 @@ import ErrorMessage from './ErrorMessage';
  * @returns {array} array of objects [{value: int, label: string}]
  */
 const mapValuesToFormOptions = (values) => {
+  console.log('func');
+  console.log(values);
   return values.map(({ id: value, name: label }) => ({
     value,
     label,
@@ -48,7 +50,7 @@ const mapFormOptionsToFormValue = (options) => {
   });
 };
 
-const AuthorSelectInput = ({ form, label, options, values }) => {
+const AuthorSelectInput = ({ form, label, options, values = [] }) => {
   const [valuesSelected, setValuesSelected] = useState(values);
 
   const handleMultiChange = (selectedOptions) => {
