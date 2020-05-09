@@ -6,9 +6,7 @@ const initialState = {
   auth: {
     loggedIn: false,
     email: null,
-    name: null,
-    surname: null,
-    token: null,
+    username: null,
     loginFail: null,
   },
 };
@@ -20,40 +18,19 @@ export function useAuth() {
   return auth;
 }
 
-export function useAuthHeader() {
-  const { auth } = useContext(AuthContext);
-  return auth.authHeader();
-}
-
 const AuthContextProvider = (props) => {
-  const session = localStorage.getItem('auth');
-  if (session) {
-    initialState.auth = JSON.parse(session);
-  }
-
   const [state, dispatch] = useReducer(AuthReducer, initialState);
 
-  const authHeader = () => {
-    if (state.auth.token) {
-      return { headers: { Authorization: `Bearer ${state.auth.token}` } };
-    }
-    return {};
-  };
-
-  const header = authHeader();
   const login = (data) => doLogin(data, dispatch);
-  const logout = () => doLogout(header, dispatch);
+  const logout = () => doLogout(dispatch);
 
   const auth = {
     loggedIn: state.auth.loggedIn,
     email: state.auth.email,
-    name: state.auth.name,
-    surname: state.auth.surname,
-    token: state.auth.token,
+    username: state.auth.username,
     loginFail: state.auth.loginFail,
     login,
     logout,
-    authHeader,
   };
 
   return (

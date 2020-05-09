@@ -5,43 +5,33 @@ export default (state = {}, action) => {
     case LOGIN: {
       let auth = {
         loggedIn: true,
-        // email: action.payload.user.email,
-        // name: action.payload.user.name,
-        // surname: action.payload.user.surname,
-        // token: action.payload.token,
+        email: action.payload.email,
+        username: action.payload.username,
         loginFail: false,
       };
-
-      localStorage.setItem('auth', JSON.stringify(auth));
 
       return { ...state, auth };
     }
 
     case LOGOUT: {
-      localStorage.removeItem('auth');
       return {
         ...state,
         auth: {
           loggedIn: false,
           email: null,
-          name: null,
-          surname: null,
-          token: null,
+          username: null,
           loginFail: false,
         },
       };
     }
 
     case LOGIN_FAIL: {
-      localStorage.removeItem('auth');
       return {
         ...state,
         auth: {
           loggedIn: false,
           email: null,
-          name: null,
-          surname: null,
-          token: null,
+          username: null,
           loginFail: action.payload,
         },
       };
