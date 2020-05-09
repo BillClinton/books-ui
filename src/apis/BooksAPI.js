@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-export default axios.create({
+const BooksApi = axios.create({
   baseURL: 'http://localhost:8000',
+  withCredentials: true,
   headers: {
     common: {
       Accept: 'application/json',
@@ -11,3 +12,5 @@ export default axios.create({
     },
   },
 });
+
+export default BooksApi;
