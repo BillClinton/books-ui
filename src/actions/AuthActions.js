@@ -13,7 +13,7 @@ export const doLogin = (formValues, dispatch) => {
         type: LOGIN,
         payload: response.data,
       });
-      history.push('/admin');
+      history.push('/books');
     })
     .catch((e) => {
       if (e.response && e.response.data.error) {
@@ -30,8 +30,8 @@ export const doLogin = (formValues, dispatch) => {
     });
 };
 
-export const doLogout = (authHeader, dispatch) => {
-  const getData = async () => await API.post('/users/logout', {}, authHeader);
+export const doLogout = (dispatch) => {
+  const getData = async () => await API.get('/logout');
 
   getData().then((response) => {
     dispatch({
