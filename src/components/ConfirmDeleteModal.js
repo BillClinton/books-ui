@@ -44,7 +44,7 @@ const ConfirmDeleteModal = ({
           <Button variantColor="blue" mr={3} onClick={cancelDeletion}>
             Cancel
           </Button>
-          <Button variant="ghost">Remove</Button>
+          <Button onClick={deleteAndClose}>Remove</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
