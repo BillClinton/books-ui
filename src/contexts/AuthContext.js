@@ -1,6 +1,6 @@
 import React, { createContext, useReducer, useContext } from 'react';
 import AuthReducer from '../reducers/AuthReducer';
-import { doLogin, doLogout } from '../actions/AuthActions';
+import { doLogin, doLogout, doRefresh } from '../actions/AuthActions';
 
 const initialState = {
   auth: {
@@ -23,6 +23,7 @@ const AuthContextProvider = (props) => {
 
   const login = (data) => doLogin(data, dispatch);
   const logout = () => doLogout(dispatch);
+  const refresh = () => doRefresh(dispatch);
 
   const auth = {
     loggedIn: state.auth.loggedIn,
@@ -31,6 +32,7 @@ const AuthContextProvider = (props) => {
     loginFail: state.auth.loginFail,
     login,
     logout,
+    refresh,
   };
 
   return (

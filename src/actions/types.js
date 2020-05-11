@@ -1,6 +1,7 @@
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
+export const REFRESH_FAIL = 'REFRESHL_FAIL';
 
 export const CREATE_BOOK = 'CREATE_BOOK';
 export const READ_BOOK = 'READ_BOOK';

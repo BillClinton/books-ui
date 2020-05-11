@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT, LOGIN_FAIL } from '../actions/types';
+import { LOGIN, LOGOUT, LOGIN_FAIL, REFRESH_FAIL } from '../actions/types';
 
 export default (state = {}, action) => {
   switch (action.type) {
@@ -33,6 +33,18 @@ export default (state = {}, action) => {
           email: null,
           username: null,
           loginFail: action.payload,
+        },
+      };
+    }
+
+    case REFRESH_FAIL: {
+      return {
+        ...state,
+        auth: {
+          loggedIn: false,
+          email: null,
+          username: null,
+          loginFail: false,
         },
       };
     }

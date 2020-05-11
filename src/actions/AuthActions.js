@@ -1,14 +1,13 @@
 import API from '../apis/BooksAPI';
 import history from '../history';
 
-import { LOGIN, LOGOUT, LOGIN_FAIL } from './types';
+import { LOGIN, LOGOUT, LOGIN_FAIL, REFRESH_FAIL } from './types';
 
 export const doLogin = (formValues, dispatch) => {
   const sendData = async () => await API.post('/login', { ...formValues });
 
   sendData()
     .then((response) => {
-      console.log(response.headers);
       dispatch({
         type: LOGIN,
         payload: response.data,
@@ -39,4 +38,23 @@ export const doLogout = (dispatch) => {
       payload: response.data,
     });
   });
+};
+
+export const doRefresh = (dispatch) => {
+  const sendData = async () => await API.get('/me');
+
+  sendData()
+    .then((response) => {
+      dispatch({
+        type: LOGIN,
+        payload: response.data,
+      });
+    })
+    .catch((e) => {
+      if (e.response && e.response.data.error) {
+        dispatch({
+          type: REFRESH_FAIL,
+        });
+      }
+    });
 };
