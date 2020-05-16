@@ -1,15 +1,7 @@
-import React, { createContext, useReducer, useContext } from 'react';
-import AuthReducer from '../reducers/AuthReducer';
-import { doLogin, doLogout, doRefresh } from '../actions/AuthActions';
-
-const initialState = {
-  auth: {
-    loggedIn: false,
-    email: null,
-    username: null,
-    loginFail: null,
-  },
-};
+import React, { createContext, useContext, useEffect } from 'react';
+import AuthMachine from '../machines/AuthMachine';
+import { useMachine } from '@xstate/react';
+import history from '../history';
 
 export const AuthContext = createContext();
 
@@ -19,24 +11,34 @@ export function useAuth() {
 }
 
 const AuthContextProvider = (props) => {
-  const [state, dispatch] = useReducer(AuthReducer, initialState);
+  const [state, send] = useMachine(AuthMachine, {
+    actions: {
+      redirectToHome: () => history.push('/'),
+    },
+  });
+  const ctx = state.context;
 
-  const login = (data) => doLogin(data, dispatch);
-  const logout = () => doLogout(dispatch);
-  const refresh = () => doRefresh(dispatch);
+  const login = (data) => send({ type: 'login', data });
+  const logout = () => send({ type: 'logout' });
+  const refresh = () => send({ type: 'refresh' });
+
+  useEffect(() => {
+    refresh();
+  }, []);
 
   const auth = {
-    loggedIn: state.auth.loggedIn,
-    email: state.auth.email,
-    username: state.auth.username,
-    loginFail: state.auth.loginFail,
+    loggedIn: ctx.loggedIn,
+    message: ctx.message,
+    email: ctx.profile ? ctx.profile.email : null,
+    username: ctx.profile ? ctx.profile.username : null,
+    matchState: state.matches,
+    state,
     login,
     logout,
-    refresh,
   };
 
   return (
-    <AuthContext.Provider value={{ auth, dispatch }}>
+    <AuthContext.Provider value={{ auth }}>
       {props.children}
     </AuthContext.Provider>
   );
