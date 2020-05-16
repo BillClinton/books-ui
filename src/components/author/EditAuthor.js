@@ -1,21 +1,29 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { AuthorStore } from '../../contexts/AuthorStore';
 import EditAuthorForm from './EditAuthorForm';
+import LoadingSpinner from '../layout/LoadingSpinner';
 
 const EditAuthor = ({ match }) => {
   const { store } = useContext(AuthorStore);
   const id = parseInt(match.params.id, 10);
-  let author = store.edit;
+  let author = store.item;
 
-  if (!author || author.id !== id) {
-    author = null;
-    store.readOne(id);
-  }
+  console.log(id);
+  console.log(author);
+  console.log(store);
 
-  return author ? (
-    <EditAuthorForm author={author} />
-  ) : (
-    <div>loading form...</div>
+  useEffect(() => {
+    store.readItem(id);
+  }, [id]);
+
+  return (
+    <>
+      <h1>yoyoyoyo</h1>
+      {store.matchItemState('itemPending') ? <LoadingSpinner /> : null}
+      {store.matchItemState('success') ? (
+        <EditAuthorForm author={author} />
+      ) : null}
+    </>
   );
 };
 
