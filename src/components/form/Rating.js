@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Box, Icon, PseudoBox, Stack, Text } from '@chakra-ui/core';
 
 const Rating = React.forwardRef(
-  ({ size, icon, scale, fillColor, strokeColor }, ref) => {
-    const [rating, setRating] = useState(3);
+  ({ value, size, icon, scale, fillColor, strokeColor }, ref) => {
+    const [rating, setRating] = useState(value);
     const buttons = [];
 
     const onClick = (idx) => {
