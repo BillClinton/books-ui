@@ -8,17 +8,12 @@ const EditAuthor = ({ match }) => {
   const id = parseInt(match.params.id, 10);
   let author = store.item;
 
-  console.log(id);
-  console.log(author);
-  console.log(store);
-
   useEffect(() => {
     store.readItem(id);
   }, [id]);
 
   return (
     <>
-      <h1>yoyoyoyo</h1>
       {store.matchItemState('itemPending') ? <LoadingSpinner /> : null}
       {store.matchItemState('success') ? (
         <EditAuthorForm author={author} />
