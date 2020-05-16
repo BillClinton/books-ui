@@ -1,41 +1,66 @@
-import React, { createContext, useReducer, useEffect } from 'react';
-import AuthorReducer from '../reducers/AuthorReducer';
-import {
-  createAuthor,
-  readAuthors,
-  readAuthor,
-  updateAuthor,
-  destroyAuthor,
-} from '../actions/AuthorActions';
+import React, { createContext, useEffect } from 'react';
+import ApiMachine from '../machines/ApiMachine';
+import { useMachine } from '@xstate/react';
+import history from '../history';
 
 export const AuthorStore = createContext();
 
-const initialState = {
-  authors: [],
-};
-
 const AuthorStoreProvider = (props) => {
-  const [state, dispatch] = useReducer(AuthorReducer, initialState);
-  const create = (data) => createAuthor(data, dispatch);
-  const read = () => readAuthors(dispatch);
-  const readOne = (id) => readAuthor(id, dispatch);
-  const update = (id, data) => updateAuthor(id, data, dispatch);
-  const destroy = (id) => destroyAuthor(id, dispatch);
+  const apiMachine = ApiMachine('authors');
+  const [state, send] = useMachine(apiMachine.get);
+  const [itemState, sendItem] = useMachine(apiMachine.getItem);
+  const [, sendCreate] = useMachine(apiMachine.post, {
+    actions: {
+      operationComplete: () => {
+        console.log('operationComplete');
+        send({ type: 'op' });
+        history.push('/authors');
+      },
+    },
+  });
+  const [, sendPatch] = useMachine(apiMachine.patch, {
+    actions: {
+      operationComplete: () => {
+        send({ type: 'op' });
+        history.push('/authors');
+      },
+    },
+  });
+  const [, sendDelete] = useMachine(apiMachine.delete, {
+    actions: {
+      operationComplete: () => {
+        send({ type: 'op' });
+      },
+    },
+  });
 
-  useEffect(read, []);
+  const create = (data) => sendCreate({ type: 'op', data });
+  const read = (id) => send({ type: 'op' });
+  const readItem = (id) => sendItem({ type: 'op', data: id });
+  const update = (id, data) => {
+    sendPatch({ type: 'op', id, data: JSON.stringify(data) });
+  };
+  const destroy = (id) => sendDelete({ type: 'op', data: id });
+
+  useEffect(() => {
+    read();
+  }, []);
 
   const store = {
-    data: state.authors,
-    edit: state.author,
+    collection: state.context.results,
+    item: itemState.context.results,
+    message: state.message,
+    matchState: state.matches,
+    matchItemState: itemState.matches,
     create,
     read,
-    readOne,
+    readItem,
     update,
     destroy,
   };
 
   return (
-    <AuthorStore.Provider value={{ store, dispatch }}>
+    <AuthorStore.Provider value={{ store }}>
       {props.children}
     </AuthorStore.Provider>
   );
