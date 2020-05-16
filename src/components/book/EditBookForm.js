@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { BookStore } from '../../contexts/BookStore';
 import AuthorSelectInput from '../form/AuthorSelectInput';
+import Rating from '../form/Rating';
 import history from '../../history';
 import {
   FormErrorMessage,
@@ -18,6 +19,7 @@ const EditBookForm = ({ book, authors }) => {
 
   const onCancel = () => history.push('/books');
   const onSubmit = (data, e) => {
+    data.rating = parseInt(data.rating, 10);
     e.preventDefault();
     store.update(book.id, data);
   };
@@ -44,6 +46,16 @@ const EditBookForm = ({ book, authors }) => {
         label="Author(s)"
         options={authors}
         values={book.authors}
+      />
+
+      <Rating
+        size={48}
+        icon="star"
+        scale={5}
+        fillColor="gold"
+        strokeColor="grey"
+        ref={form.register({ required: true })}
+        value={book.rating}
       />
 
       <Flex justify="center" p={2} w="100%" align="center">
