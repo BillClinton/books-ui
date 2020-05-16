@@ -7,6 +7,7 @@ import AuthorHome from './components/author/AuthorHome';
 import AuthContextProvider from './contexts/AuthContext';
 import LoginForm from './components/user/LoginForm';
 import UserProfile from './components/user/UserProfile';
+import ProtectedRoute from './components/ProtectedRoute';
 import NoRouteFound from './components/NoRouteFound';
 import { ThemeProvider, CSSReset, Box } from '@chakra-ui/core';
 import customTheme from './theme';
@@ -38,9 +39,9 @@ function App() {
               <Route path="/login">
                 <LoginForm />
               </Route>
-              <Route path="/profile">
+              <ProtectedRoute path="/profile">
                 <UserProfile />
-              </Route>
+              </ProtectedRoute>
               <Route path="*" component={NoRouteFound} />
             </Switch>
           </Box>
