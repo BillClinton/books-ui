@@ -9,12 +9,13 @@ import ErrorMessage from './ErrorMessage';
  * @returns {array} array of objects [{value: int, label: string}]
  */
 const mapValuesToFormOptions = (values) => {
-  console.log('func');
-  console.log(values);
-  return values.map(({ id: value, name: label }) => ({
-    value,
-    label,
-  }));
+  return (
+    values &&
+    values.map(({ id: value, name: label }) => ({
+      value,
+      label,
+    }))
+  );
 };
 
 /**
@@ -24,10 +25,13 @@ const mapValuesToFormOptions = (values) => {
  * @returns {array} array of objects [{id: int, name: string}]
  */
 const mapFormOptionsToValues = (options) => {
-  return options.map(({ value: id, label: name }) => ({
-    id,
-    name,
-  }));
+  return (
+    options &&
+    options.map(({ value: id, label: name }) => ({
+      id,
+      name,
+    }))
+  );
 };
 
 /**
@@ -40,6 +44,9 @@ const mapFormOptionsToValues = (options) => {
  * @returns {array} array of authors
  */
 const mapFormOptionsToFormValue = (options) => {
+  if (!options) {
+    return [];
+  }
   return options.map(({ value: id }) => {
     // existing author
     if (Number.isInteger(id)) {
@@ -53,21 +60,43 @@ const mapFormOptionsToFormValue = (options) => {
 const AuthorSelectInput = ({ form, label, options, values = [] }) => {
   const [valuesSelected, setValuesSelected] = useState(values);
 
+  // convert options and selected options to key names used by react-select
+  const selectOptions = mapValuesToFormOptions(options);
+  const optionsSelected = mapValuesToFormOptions(valuesSelected);
+  // const selectOptions = options;
+  // const optionsSelected = valuesSelected;
+
   const handleMultiChange = (selectedOptions) => {
     // set form value to format used by API post/patch
     form.setValue('authors', mapFormOptionsToFormValue(selectedOptions));
 
     // update state with currently selected values
     setValuesSelected(mapFormOptionsToValues(selectedOptions));
+    // setValuesSelected(selectedOptions);
   };
 
   useEffect(() => {
     form.register({ name: 'authors' });
+    // map current options to form value in case select is never changed
+    form.setValue('authors', mapFormOptionsToFormValue(optionsSelected));
   }, [form]);
 
-  // convert options and selected options to key names used by react-select
-  const selectOptions = mapValuesToFormOptions(options);
-  const optionsSelected = mapValuesToFormOptions(valuesSelected);
+  // const getOptionValue = (option) => {
+  //   console.log(option);
+  //   return option.id;
+  // };
+
+  // const getOptionLabel = (option) => {
+  //   return option.name;
+  // };
+
+  // const isValidNewOption = (inputValue, selectValue, selectOptions) => {
+  //   console.log('isValidNewOption');
+  //   console.log(inputValue);
+  //   console.log(selectValue);
+  //   console.log(selectOptions);
+  //   return true;
+  // };
 
   return selectOptions ? (
     <>
@@ -78,6 +107,9 @@ const AuthorSelectInput = ({ form, label, options, values = [] }) => {
           value={optionsSelected}
           options={selectOptions}
           onChange={handleMultiChange}
+          // getOptionLabel={getOptionLabel}
+          // getOptionValue={getOptionValue}
+          // isValidNewOption={isValidNewOption}
           isMulti
         />
         <ErrorMessage errors={form.errors} fieldName="authors" />
