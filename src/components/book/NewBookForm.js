@@ -18,7 +18,7 @@ const NewBookForm = () => {
   const { store: bookStore } = useContext(BookStore);
   const { store: authorStore } = useContext(AuthorStore);
 
-  const authors = authorStore.data;
+  const authors = authorStore.collection;
 
   const onCancel = () => history.push('/books');
   const onSubmit = (data, e) => {
