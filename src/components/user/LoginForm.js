@@ -24,15 +24,7 @@ const LoginForm = () => {
     auth.login(data);
   };
 
-  const waitingOnAuth =
-    auth.matchState('login.pending') ||
-    auth.matchState('logout.pending') ||
-    auth.matchState('refresh.pending') ||
-    auth.state.context.ready !== true;
-
-  if (waitingOnAuth) {
-    return null;
-  } else if (auth.loggedIn) {
+  if (auth.loggedIn) {
     return (
       <Redirect
         to={{
