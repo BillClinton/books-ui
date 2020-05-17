@@ -1,7 +1,7 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
-import { Icon, SlideIn } from '@chakra-ui/core';
+import { Icon } from '@chakra-ui/core';
 import './Nav.scss';
 
 const Nav = () => {
