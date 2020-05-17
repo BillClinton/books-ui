@@ -135,9 +135,10 @@ const AuthMachine = Machine(
         message: event.data.message,
       })),
       setErrorMessage: assign((ctx, event) => ({
-        message: event.data.response.data
-          ? event.data.response.data.error
-          : event.data.message,
+        message:
+          event.data.response && event.data.response.data
+            ? event.data.response.data.error
+            : event.data.message,
       })),
     },
   }
