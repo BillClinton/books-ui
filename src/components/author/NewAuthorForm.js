@@ -1,5 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useToast } from '@chakra-ui/core';
 import { AuthorStore } from '../../contexts/AuthorStore';
 import history from '../../history';
 import {
@@ -14,12 +15,26 @@ import {
 const NewAuthorForm = () => {
   const form = useForm();
   const { store } = useContext(AuthorStore);
+  const toast = useToast();
 
   const onCancel = () => history.push('/authors');
   const onSubmit = (data, e) => {
     e.preventDefault();
     store.create(data);
   };
+
+  useEffect(() => {
+    if (store.matchState('create.failure')) {
+      store.send({ to: 'post', type: 'reset' });
+      toast({
+        title: 'Error attempting to create author.',
+        description: store.message,
+        status: 'warning',
+        duration: 4000,
+        isClosable: true,
+      });
+    }
+  }, [store.failure, store, toast]);
 
   return (
     <form className="form" onSubmit={form.handleSubmit(onSubmit)}>
@@ -29,6 +44,7 @@ const NewAuthorForm = () => {
         <Input
           name="name"
           placeholder="name"
+          isDisabled={store.matchState('create.pending')}
           ref={form.register({ required: true })}
         />
         <FormErrorMessage>
@@ -37,10 +53,20 @@ const NewAuthorForm = () => {
       </FormControl>
 
       <Flex justify="center" p={2} w="100%" align="center">
-        <Button className="cancel" onClick={onCancel} m="1">
+        <Button
+          className="cancel"
+          onClick={onCancel}
+          m="1"
+          isDisabled={store.matchState('create.pending')}
+        >
           Cancel
         </Button>
-        <Button className="submit" m="1" type="submit">
+        <Button
+          className="submit"
+          m="1"
+          type="submit"
+          isLoading={store.matchState('create.pending')}
+        >
           Save
         </Button>
       </Flex>
