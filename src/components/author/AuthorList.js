@@ -1,16 +1,16 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { AuthorStore } from '../../contexts/AuthorStore';
 import AuthorDetails from './AuthorDetails';
 import ConfirmDeleteModal from '../ConfirmDeleteModal';
 import styles from './styles/AuthorList.module.scss';
-import { Button } from '@chakra-ui/core';
+import { Button, useToast } from '@chakra-ui/core';
 import LoadingSpinner from '../layout/LoadingSpinner';
 
 const AuthorList = () => {
   const { store } = useContext(AuthorStore);
   const history = useHistory();
-  // const toast = useToast();
+  const toast = useToast();
   const [condemnedAuthor, setCondemnedAuthor] = useState(null);
   const authors = store.collection;
 
@@ -21,20 +21,32 @@ const AuthorList = () => {
     setCondemnedAuthor(null);
   };
 
+  useEffect(() => {
+    if (store.failure) {
+      let title = 'An error occurred.';
+      if (store.matchState({ collection: 'failure' })) {
+        title = 'Error attempting to load authors.';
+        store.send({ to: 'collection', type: 'reset' });
+      }
+      if (store.matchState({ destroy: 'failure' })) {
+        title = 'Error attempting to delete author.';
+        store.send({ to: 'destroy', type: 'reset' });
+      }
+
+      toast({
+        title,
+        description: store.message,
+        status: 'warning',
+        duration: 4000,
+        isClosable: true,
+      });
+    }
+  }, [store.failure, store, toast]);
+
   return (
     <>
-      {store.matchState('pending') ? <LoadingSpinner /> : null}
-      {store.matchState('failure') ? <p>{store.message}</p> : null}
-      {/* {store.matchDeleteState('failure')
-        ? toast({
-            title: 'Error attempting to delete author.',
-            description: store.message,
-            status: 'warning',
-            duration: 5000,
-            isClosable: true,
-          })
-        : null} */}
-      {store.matchState('success') ? (
+      {store.matchState({ collection: 'pending' }) ? <LoadingSpinner /> : null}
+      {store.matchState({ collection: 'success' }) ? (
         <>
           {condemnedAuthor && (
             <ConfirmDeleteModal
