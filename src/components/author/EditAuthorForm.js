@@ -29,6 +29,7 @@ const EditAuthorForm = ({ author }) => {
         <Input
           name="name"
           placeholder="name"
+          isDisabled={store.matchState('update.pending')}
           ref={form.register({ required: true })}
         />
         <FormErrorMessage>
@@ -37,10 +38,20 @@ const EditAuthorForm = ({ author }) => {
       </FormControl>
 
       <Flex justify="center" p={2} w="100%" align="center">
-        <Button className="cancel" onClick={onCancel} m="1">
+        <Button
+          className="cancel"
+          onClick={onCancel}
+          m="1"
+          isDisabled={store.matchState('update.pending')}
+        >
           Cancel
         </Button>
-        <Button className="submit" m="1" type="submit">
+        <Button
+          className="submit"
+          m="1"
+          type="submit"
+          isLoading={store.matchState('update.pending')}
+        >
           Save
         </Button>
       </Flex>
