@@ -17,11 +17,11 @@ const EditAuthor = ({ match }) => {
   useEffect(() => {
     if (store.failure) {
       let title = 'An error occurred.';
-      if (store.matchState({ item: 'failure' })) {
+      if (store.matchState('item.failure')) {
         title = 'Error attempting to load author.';
         store.send({ to: 'item', type: 'reset' });
       }
-      if (store.matchState({ patch: 'failure' })) {
+      if (store.matchState('update.failure')) {
         title = 'Error attempting to update author.';
         store.send({ to: 'patch', type: 'reset' });
       }

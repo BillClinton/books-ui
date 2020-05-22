@@ -24,11 +24,11 @@ const AuthorList = () => {
   useEffect(() => {
     if (store.failure) {
       let title = 'An error occurred.';
-      if (store.matchState({ collection: 'failure' })) {
+      if (store.matchState('collection.failure')) {
         title = 'Error attempting to load authors.';
         store.send({ to: 'collection', type: 'reset' });
       }
-      if (store.matchState({ destroy: 'failure' })) {
+      if (store.matchState('destroy.failure')) {
         title = 'Error attempting to delete author.';
         store.send({ to: 'destroy', type: 'reset' });
       }
@@ -45,8 +45,8 @@ const AuthorList = () => {
 
   return (
     <>
-      {store.matchState({ collection: 'pending' }) ? <LoadingSpinner /> : null}
-      {store.matchState({ collection: 'success' }) ? (
+      {store.matchState('collection.pending') ? <LoadingSpinner /> : null}
+      {store.matchState('collection.success') ? (
         <>
           {condemnedAuthor && (
             <ConfirmDeleteModal
